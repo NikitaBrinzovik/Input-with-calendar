@@ -1,9 +1,9 @@
 import {combineReducers, createStore} from "redux";
-import {currencyReducer} from "./currenceReducer";
+import { calendarReducer} from "./calendarReducer";
 
 
 const reducers = combineReducers({
-    currency: currencyReducer,
+    calendar: calendarReducer,
 });
 
 export type GlobalState = ReturnType<typeof reducers>

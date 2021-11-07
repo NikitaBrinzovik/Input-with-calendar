@@ -1,3 +1,5 @@
+import {calendarReducer} from "./calendarReducer";
+
 export enum ACTION_TYPE{
     DO_SOMETHING='DO_SOMETHING'
 }
@@ -15,4 +17,4 @@ export type anyACType = {
     payload: {a:any},
 }
 
-export type CurrencyReducersTypes= anyACType
+export type CalendarReducersTypes= anyACType

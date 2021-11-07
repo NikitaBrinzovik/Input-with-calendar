@@ -4,7 +4,7 @@ import { CalendarContainer } from './container/CalendarContainer';
 
 function App() {
   return (
-    <div className="App">
+    <div className="wrapper">
       <div className="container">
         <CalendarContainer/>
       </div>
