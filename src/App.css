@@ -24,4 +24,18 @@
   background-color: rgba(229, 229, 229, 0.78);
   text-align: center;
 }
-
+/*-----------------DEV STYLE------------------*/
+input{
+  display: block;
+  margin: 40px auto;
+  font-size: larger;
+  color: rgb(139, 0, 0);
+}
+button {
+  display: block;
+  padding: 20px;
+  background-color: rgba(139, 0, 0, 0.61);
+  margin: 0 auto;
+  color: aliceblue;
+}
+/*----------------------------------------------*/
