@@ -1,10 +1,32 @@
-
-
-export let mounths:Array<string> = ["February", "March", "April", "May",
+export let months:Array<string> = ["January", "February", "March", "April", "May",
     "June", "July", "August", "September",
     "October", "November", "December",
-    "feb", "mar", "apr", "may", "jun", "jul",
-    "aug", "sep", "oct", "nov", "dec"]
+    "jan", "feb", "mar", "apr", "may", "jun", "jul",
+    "aug", "sep", "oct", "nov", "dec"];
+
+
+export const getMonthNumber = (month:string):string => {
+    if(month === "jan"||month === "Jan"||month === "January") return "00"
+    if(month === "feb"||month === "Feb"||month === "February") return "01"
+    if(month === "mar"||month === "Mar"||month === "March") return "02"
+    if(month === "apr"||month === "Apr"||month === "April") return "03"
+    if(month === "may"||month === "May") return "04"
+    if(month === "jun"||month === "Jun"||month === "June") return "05"
+    if(month === "jul"||month === "Jul"||month === "July") return "06"
+    if(month === "aug"||month === "Aug"||month === "August") return "07"
+    if(month === "sep"||month === "Sep"||month === "September") return "08"
+    if(month === "oct"||month === "Oct"||month === "October") return "09"
+    if(month === "nov"|| month ==="Nov"||month === "November") return "10"
+    if(month === "dec"|| month ==="Dec"||month === "December") return "11"
+    return "error"
+}
+
+
+
+
+
+
+
 /*let rule1 = Number(arrStr[0]) //true?
 let rule2 = Number(arrStr[1]) || //true?
 Object.keys(valutes).some(v => v === values.resultValute?.toUpperCase());*/
