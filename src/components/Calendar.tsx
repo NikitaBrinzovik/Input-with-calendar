@@ -7,6 +7,7 @@ import {
     validatorAllDate,
     validatorByLength
 } from "../helpers/helpers";
+// import {arrowValidator} from "../helpers/arrowvalidation";
 
 let time: string
 
@@ -81,12 +82,26 @@ export const Calendar = () => {
     }
     const arrowUp = () => {
         let dayFromDate = new Date(inputValue).getDate()
+
         let monthFromDate = getMonthNumber(new Date(inputValue).getMonth().toString())
+        if (dayFromDate > 15) {
+            parser(`${22} ${monthFromDate}`)
+        }
         let yearFromDate = new Date(inputValue).getFullYear()
         let hourFromDate = new Date(inputValue).getHours()
         let minutesFromDate = new Date(inputValue).getMinutes()
         let secondsFromDate = new Date(inputValue).getSeconds()
+
+
+        // arrowValidator(dayFromDate, monthFromDate, yearFromDate, hourFromDate, minutesFromDate, secondsFromDate)
         console.log("/////////////////////////////////////////////////////")
+        console.log(typeof dayFromDate, "---dayFromDate")
+        console.log(typeof monthFromDate, "---monthFromDate")
+        console.log(typeof yearFromDate, "---yearFromDate")
+        console.log(typeof hourFromDate, "---hourFromDate")
+        console.log(typeof minutesFromDate, "---minutesFromDate")
+        console.log(typeof secondsFromDate, "---secondsFromDate")
+
         console.log({dayFromDate, monthFromDate, yearFromDate, hourFromDate, minutesFromDate, secondsFromDate})
         time = (`${yearFromDate}-${monthFromDate}-${dayFromDate}T${hourFromDate}:${minutesFromDate}:${secondsFromDate}`)
         console.log("/////////////////////////////////////////////////////")
