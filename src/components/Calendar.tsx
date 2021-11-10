@@ -1,65 +1,47 @@
 import {useState, KeyboardEvent} from "react";
-import {getMonthNumber, months} from "../assets/mask";
+import {getMonthNumber, months, validation} from "../assets/mask";
 
-let year: string
-let month: string
-let day: string
-let hour: string
-let minutes: string
-let seconds: string
 let time: string
 
 export const Calendar = () => {
     const [inputType, setInputType] = useState<string>("");
-    const [inputValue, setInputValue] = useState<string>("");
+    const [inputValue, setInputValue] = useState<Date | string>("");
 
-    const dateValidationFormatter = (date: string | number) => "0" + date
+    const strParser = (str: string | Date): string | Date => {
+        if(typeof str === "object") {
 
-    const strParser = (str: string) => {
-
-        const dateArrFromInput = str.split(' ');
-        let mappedDateArr = dateArrFromInput.map((date, key) => {
-            if (key === 2) {
-                if (date.length === 3) return "2" + date
-                if (date.length === 2) return "20" + date
-                if (date.length === 1) return "202" + date
-            }
-            /*switch (key === 2) {
-                case date.length === 3: return "2" + date
-                case date.length === 2: return "20" + date
-                case date.length === 1: return "202" + date
-                //default: return date
-            }*/
-            return (date.length < 2)
-                ? dateValidationFormatter(date)
-                : date
-        })
-
-        day = mappedDateArr[0];
-        month = mappedDateArr[1];
-        mappedDateArr[2] ? year = mappedDateArr[2] : year = "2021";
-        mappedDateArr[3] ? hour = mappedDateArr[3] : hour = "00";
-        mappedDateArr[4] ? minutes = mappedDateArr[4] : minutes = "00";
-        mappedDateArr[5] ? seconds = mappedDateArr[5] : seconds = "00";
-
-        if (Number(day) && (Number(month) || (months.some(v => v === month)))
-        ) {
-            setInputType("datetime-local")
-
-            if (months.some(monthValue => monthValue === month)) {
-                month = getMonthNumber(month)
-            }
-
-            time = (`${year}-${month}-${day}T${hour}:${minutes}:${seconds}`)
-            return setInputValue(time)
-
+            let incoming = str
+            let dayFromDate =  new Date(str).getDate()
+            let monthFromDate = getMonthNumber( new Date(str).getMonth().toString() )
+            let yearFromDate = new Date(str).getFullYear()
+            let hourFromDate = new Date(str).getHours()
+            let minutesFromDate = new Date(str).getMinutes()
+            let secondsFromDate = new Date(str).getSeconds()
+            console.log({dayFromDate, monthFromDate, yearFromDate, hourFromDate, minutesFromDate, secondsFromDate})
+            time = (`${yearFromDate}-${monthFromDate}-${dayFromDate}T${hourFromDate}:${minutesFromDate}:${secondsFromDate}`)
+            return time
         }
+            if(str) {
+
+                let validatedDate = validation(str)
+                if (Number(validatedDate.day) && (Number(validatedDate.month) || (months.some(v => v === validatedDate.month)))
+                ) {
+                    setInputType("datetime-local")
+                    if (months.some(monthValue => monthValue === validatedDate.month)) {
+                        validatedDate.month = getMonthNumber(validatedDate.month)
+                    }
+                    time = (`${validatedDate.year}-${validatedDate.month}-${validatedDate.day}T${validatedDate.hours}:${validatedDate.minutes}:${validatedDate.seconds}`)
+                    setInputValue(time)
+                    return inputValue
+
+                }
+            }
+        return str
     }
 
+    const onKeyDown = () => strParser(inputValue)
 
-    const onKeyDown = () => {
-        const values = strParser(inputValue)
-    }
+
     const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
         if (e.code === 'Enter') {
             onKeyDown()
@@ -67,10 +49,7 @@ export const Calendar = () => {
         if (e.code === 'Escape') {
             setInputType("")
         }
-        // if (e.code === 'Backspace') {
-        //     setInputType("")
-        //     setInputValue("")
-        // }
+
     }
     const reset = () => {
         setInputType("")
@@ -95,7 +74,16 @@ export const Calendar = () => {
     const helper6 = () => {
         setInputValue('11 feb 1111 23 59 11')
     }
+
     //------------------------------
+    const onInputValueChange = (date: string) => {
+        // приходит: 1112-01-11T23:59:11
+
+        if (inputType === "datetime-local") {
+            return setInputValue(date)
+        }
+        return setInputValue(date)
+    }
 
     console.log('inputValue', inputValue)
     return (<div>
@@ -103,9 +91,10 @@ export const Calendar = () => {
             type={inputType}
             className={'calendar'}
             placeholder={'hey'}
-            value={inputValue}
+            value={inputValue.toString()}
             onKeyDown={e => handleKeyDown(e)}
-            onChange={(e) => setInputValue(e.currentTarget.value)}
+            id={'calendar'}
+            onChange={(e) => onInputValueChange(e.currentTarget.value)}
         />
 
         {/*-------------Button - HELPERS--------------*/}
@@ -137,3 +126,4 @@ export const Calendar = () => {
         </div>
     </div>)
 }
+
