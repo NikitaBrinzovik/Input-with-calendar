@@ -1,12 +1,12 @@
 import React from 'react';
 import './App.css';
-import { CalendarContainer } from './container/CalendarContainer';
+import {Calendar} from "./components/Calendar";
 
 function App() {
   return (
     <div className="wrapper">
       <div className="container">
-        <CalendarContainer/>
+        <Calendar/>
       </div>
     </div>
   );
