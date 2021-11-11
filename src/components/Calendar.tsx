@@ -62,14 +62,14 @@ export const Calendar = () => {
         const validData = (dateInThisMoment: ArrowvalidationType) => {
             if (monthFromDate === 2 && dayFromDate > 26) {//--------------------February-------------------
                 if (!((yearFromDate % 100 !== 0 && yearFromDate % 4 === 0) || (yearFromDate % 100 === 0 && yearFromDate % 400 === 0))) { ///- високосный год
-                    setInputValue(parser(`{"01"} ${monthFromDate} ${yearFromDate} ${hoursFromDate} ${minutesFromDate} ${secondsFromDate}`))
+                    setInputValue(parser(`${"01"} ${monthFromDate} ${yearFromDate} ${hoursFromDate} ${minutesFromDate} ${secondsFromDate}`))
                 }
                 if (dayFromDate > 27) {
-                    setInputValue(parser(`{"01"} ${monthFromDate} ${yearFromDate} ${hoursFromDate} ${minutesFromDate} ${secondsFromDate}`))
+                    setInputValue(parser(`${"01"} ${monthFromDate} ${yearFromDate} ${hoursFromDate} ${minutesFromDate} ${secondsFromDate}`))
                 }
             }
             if (dayFromDate > 29 && (monthFromDate === 4 || monthFromDate === 6 || monthFromDate === 9 || monthFromDate === 11)) {
-                setInputValue(parser(`{"01"} ${monthFromDate} ${yearFromDate} ${hoursFromDate} ${minutesFromDate} ${secondsFromDate}`))
+                setInputValue(parser(`${"01"} ${monthFromDate} ${yearFromDate} ${hoursFromDate} ${minutesFromDate} ${secondsFromDate}`))
                 //------------------------------30 day months----------------------
             }
         }
@@ -85,39 +85,39 @@ export const Calendar = () => {
             let yearHelper =  +yearFromDate + 1
             // if(monthHelper.length === 3) monthHelper.substr(-2,2)
             if(monthFromDate === 11){
-                setInputValue(parser(`${dayFromDate} {"01"} ${yearHelper} ${hoursFromDate} ${minutesFromDate} ${secondsFromDate}`))
+                setInputValue(parser(`${dayFromDate} ${"01"} ${yearHelper} ${hoursFromDate} ${minutesFromDate} ${secondsFromDate}`))
             }
             if (monthFromDate === 2 && dayFromDate > 26) {//--------------------February-------------------
                 if (!((yearFromDate % 100 !== 0 && yearFromDate % 4 === 0) || (yearFromDate % 100 === 0 && yearFromDate % 400 === 0))) { ///- високосный год
-                    setInputValue(parser(`{"01"} {"03"} ${yearFromDate} ${hoursFromDate} ${minutesFromDate} ${secondsFromDate}`))
+                    setInputValue(parser(`${"01"} ${"03"} ${yearFromDate} ${hoursFromDate} ${minutesFromDate} ${secondsFromDate}`))
                 }
                 if (dayFromDate > 27) {
-                    setInputValue(parser(`{"01"} {"03"} ${yearFromDate} ${hoursFromDate} ${minutesFromDate} ${secondsFromDate}`))
+                    setInputValue(parser(`${"01"} ${"03"} ${yearFromDate} ${hoursFromDate} ${minutesFromDate} ${secondsFromDate}`))
                 }
             }
             if (dayFromDate > 29 && (monthFromDate === 4 || monthFromDate === 6 || monthFromDate === 9 || monthFromDate === 11)) {
                 if(monthHelper === "010") monthHelper = "10"
                 if(monthHelper === "012") monthHelper = "12"
-                setInputValue(parser(`{"01"} ${monthHelper} ${yearFromDate} ${hoursFromDate} ${minutesFromDate} ${secondsFromDate}`))
+                setInputValue(parser(`${"01"} ${monthHelper} ${yearFromDate} ${hoursFromDate} ${minutesFromDate} ${secondsFromDate}`))
                 //------------------------------30 day months----------------------
             }
             if (dayFromDate > 30) {
                 if(monthHelper === "010") monthHelper = "10"
                 if(monthHelper === "011") monthHelper = "11"
-                setInputValue(parser(`{"01"} ${monthHelper} ${yearFromDate} ${hoursFromDate} ${minutesFromDate} ${secondsFromDate}`))
+                setInputValue(parser(`${"01"} ${monthHelper} ${yearFromDate} ${hoursFromDate} ${minutesFromDate} ${secondsFromDate}`))
                 if(monthHelper === "013") {
                     let yearHelper =  +yearFromDate + 1
-                    setInputValue(parser(`{"01"} {"01"} ${yearHelper} ${hoursFromDate} ${minutesFromDate} ${secondsFromDate}`))
+                    setInputValue(parser(`${"01"} ${"01"} ${yearHelper} ${hoursFromDate} ${minutesFromDate} ${secondsFromDate}`))
                 }
             }
             if(hoursFromDate === 23){
-                setInputValue(parser(`${dayHelper} ${monthFromDate} ${yearFromDate} {"00"} ${minutesFromDate} ${secondsFromDate}`))
+                setInputValue(parser(`${dayHelper} ${monthFromDate} ${yearFromDate} ${"00"} ${minutesFromDate} ${secondsFromDate}`))
             }
             if(minutesFromDate === 59){
-                setInputValue(parser(`${dayFromDate} ${monthFromDate} ${yearFromDate} ${hoursHelper} {"00"} ${secondsFromDate}`))
+                setInputValue(parser(`${dayFromDate} ${monthFromDate} ${yearFromDate} ${hoursHelper} ${"00"} ${secondsFromDate}`))
             }
             if(secondsFromDate === 59){
-                setInputValue(parser(`${dayFromDate} ${monthFromDate} ${yearFromDate} ${hoursFromDate} ${minutesFromDate} {"00"}`))
+                setInputValue(parser(`${dayFromDate} ${monthFromDate} ${yearFromDate} ${hoursFromDate} ${minutesFromDate} ${"00"}`))
             }
         }
         validData(dateInThisMoment)
