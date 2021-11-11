@@ -21,7 +21,7 @@
   margin-top: 5px;
   border-radius: 20px;
   border: 2px solid #107733;
-  background-color: rgba(229, 229, 229, 0.78);
+  background-color: rgba(229, 229, 229, 1);
   text-align: center;
 }
 .calend {
@@ -34,8 +34,8 @@
 ::-webkit-datetime-edit-month-field { color: blue;touch-action: pinch-zoom }
 ::-webkit-datetime-edit-day-field { color: green; target: back}
 ::-webkit-datetime-edit-year-field { color: purple; }*/
-::-webkit-inner-spin-button { display: none; }
-/*::-webkit-calendar-picker-indicator { background: #107733; }*/
+::-webkit-inner-spin-button { display: unset }
+::-webkit-calendar-picker-indicator { background: rgba(229, 229, 229, 0.78) }
 
 /*-----------------DEV STYLE------------------*/
 input{

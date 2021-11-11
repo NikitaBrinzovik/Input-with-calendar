@@ -2,35 +2,29 @@ import {getMonthNumber, months, spliter, validationOfYear, validatorAllDate, val
 
 
 export const parser = (str: string | Date): string | Date => {
-    if(typeof str === "string"){
-        let govno = spliter(str)
-        alert(govno)
-        if (Number(govno[0]) && (Number(govno[1]) || (months.some(v => v === govno[1])))
+    if (typeof str === "string") {
+        let parsedArr = spliter(str)
+        if (Number(parsedArr[0]) && (Number(parsedArr[1]) || (months.some(v => v === parsedArr[1])))
         ) {
-            govno = validatorAllDate(govno)
-            govno[0] = validatorByLength(govno[0])
-            if (months.some(monthValue => monthValue === govno[1].toString())) {
-                govno[1] = getMonthNumber(govno[1])
+            parsedArr = validatorAllDate(parsedArr)
+            parsedArr[0] = validatorByLength(parsedArr[0])
+            if (months.some(monthValue => monthValue === parsedArr[1].toString())) {
+                parsedArr[1] = getMonthNumber(parsedArr[1])
             }
-            if (govno[2]) {
-                govno[2] = validationOfYear(govno[2])
+            if (parsedArr[2]) {
+                parsedArr[2] = validationOfYear(parsedArr[2])
             }
-            if (govno[3]) {
-                govno[3] = validatorByLength(govno[3])
+            if (parsedArr[3]) {
+                parsedArr[3] = validatorByLength(parsedArr[3])
             }
-            if (govno[4]) {
-                govno[4] = validatorByLength(govno[4])
+            if (parsedArr[4]) {
+                parsedArr[4] = validatorByLength(parsedArr[4])
             }
-            if (govno[5]) {
-                govno[5] = validatorByLength(govno[5])
+            if (parsedArr[5]) {
+                parsedArr[5] = validatorByLength(parsedArr[5])
             }
-            /*time = (`${govno[2]}-${govno[1]}-${govno[0]}T${govno[3]}:${govno[4]}:${govno[5]}`)
-            setInputValue(time)
-            return inputValue*/
-            alert(`${govno[2]}-${govno[1]}-${govno[0]}T${govno[3]}:${govno[4]}:${govno[5]}`)
-            return (`${govno[2]}-${govno[1]}-${govno[0]}T${govno[3]}:${govno[4]}:${govno[5]}`)
+            return (`${parsedArr[2]}-${parsedArr[1]}-${parsedArr[0]}T${parsedArr[3]}:${parsedArr[4]}:${parsedArr[5]}`)
         }
     }
-    //alert("NOT a STRING")
     return str
 }
