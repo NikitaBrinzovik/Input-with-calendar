@@ -1,5 +1,3 @@
-import {useState} from "react";
-
 export type ValidationType = {
     year: string
     month: string

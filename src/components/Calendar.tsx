@@ -1,13 +1,6 @@
-import {useState, KeyboardEvent} from "react";
-import {
-    getMonthNumber,
-    months,
-    spliter,
-    validationOfYear,
-    validatorAllDate,
-    validatorByLength
-} from "../helpers/helpers";
-// import {arrowValidator} from "../helpers/arrowvalidation";
+import {KeyboardEvent, useState} from "react";
+import {parser} from "../helpers/parser";
+import {ArrowvalidationType} from "../helpers/arrowvalidation";
 
 let time: string
 
@@ -15,98 +8,129 @@ export const Calendar = () => {
     const [inputType, setInputType] = useState<string>("");
     const [inputValue, setInputValue] = useState<Date | string>("");
 
-    const parser = (str: string | Date): string | Date => {
-        if(typeof str === "string"){
-            let govno = spliter(str)
-
-
-        if (Number(govno[0]) && (Number(govno[1]) || (months.some(v => v === govno[1])))
-        ) {
-            setInputType("datetime-local")
-
-            govno = validatorAllDate(govno)
-
-            govno[0] = validatorByLength(govno[0])
-            if (months.some(monthValue => monthValue === govno[1].toString())) {
-                govno[1] = getMonthNumber(govno[1])
-            }
-            if (govno[2]) {
-                govno[2] = validationOfYear(govno[2])
-            }
-            if (govno[3]) {
-                govno[3] = validatorByLength(govno[3])
-            }
-            if (govno[4]) {
-                govno[4] = validatorByLength(govno[4])
-            }
-            if (govno[5]) {
-                govno[5] = validatorByLength(govno[5])
-            }
-
-            time = (`${govno[2]}-${govno[1]}-${govno[0]}T${govno[3]}:${govno[4]}:${govno[5]}`)
-            setInputValue(time)
-            return inputValue
-        }
-        }
-        alert("NOT a STRING")
-        return str
-    }
-
     const onKeyDown = () => {
-        if(typeof inputValue === "object" ){
-            alert("obj")
-        }
-        if(typeof inputValue === "function" ){
-            alert("func")
-        }
-        if(inputValue){
-            alert  (11111111111111)
-        }
-        alert(typeof inputValue + "fuck")
-        parser(inputValue)
+        //alert(typeof inputValue + "----------typeof inputValue")//string
 
-
-
-
+        setInputType("datetime-local")
+        setInputValue(parser(inputValue))
     }
-
-
+    const handleKeyUp = (e: KeyboardEvent<HTMLInputElement>) => {
+        if (e.code === 'ArrowDown') {
+            alert('down')
+        }
+    }
     const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
         if (e.code === 'Enter') onKeyDown()
         if (e.code === 'Escape') reset()
-        if(e.code === 'ArrowUp'){ arrowUp()}
+        if (e.code === 'ArrowUp') arrowUp()
+
+        if (e.ctrlKey) {
+            if (e.code === 'ArrowUp') arrowUpCtrlKey()
+            if (e.code === 'ArrowDown') arrowDownCtrlKey()
+        }
     }
     const reset = () => {
         setInputType("")
         setInputValue('')
     }
+    // const getChousenTime = ()=> {}
+
     const arrowUp = () => {
         let dayFromDate = new Date(inputValue).getDate()
-
-        let monthFromDate = getMonthNumber(new Date(inputValue).getMonth().toString())
-        if (dayFromDate > 15) {
-            parser(`${22} ${monthFromDate}`)
-        }
+        let monthFromDate = new Date(inputValue).getMonth() + 1
         let yearFromDate = new Date(inputValue).getFullYear()
-        let hourFromDate = new Date(inputValue).getHours()
+        let hoursFromDate = new Date(inputValue).getHours()
         let minutesFromDate = new Date(inputValue).getMinutes()
         let secondsFromDate = new Date(inputValue).getSeconds()
+        let dateInThisMoment = {
+            dayFromDate,
+            monthFromDate,
+            yearFromDate,
+            hoursFromDate,
+            minutesFromDate,
+            secondsFromDate
+        }
 
+
+        //const bisSextus = "^(?:(?:(?:0[1-9]|1\\d|2[0-8])(?:0[1-9]|1[0-2])|(?:29|30)(?:0[13-9]|1[0-2])|31(?:0[13578]|1[02]))[1-9]\\d{3}|2902(?:[1-9]\\d(?:0[48]|[2468][048]|[13579][26])|(?:[2468][048]|[13579][26])00))$"
+        const validData = (dateInThisMoment: ArrowvalidationType) => {
+
+            if (monthFromDate === 2 && dayFromDate > 26) {//--------------------February-------------------
+                if (!((yearFromDate % 100 !== 0 && yearFromDate % 4 === 0) || (yearFromDate % 100 === 0 && yearFromDate % 400 === 0))) { ///- високосный год
+                    setInputValue(parser(`${"01"} ${monthFromDate} ${yearFromDate} ${hoursFromDate} ${minutesFromDate} ${secondsFromDate}`))
+                }
+                if (dayFromDate > 27) {
+                    setInputValue(parser(`${"01"} ${monthFromDate} ${yearFromDate} ${hoursFromDate} ${minutesFromDate} ${secondsFromDate}`))
+                }
+            }
+
+            if (dayFromDate > 29 && (monthFromDate === 4 || monthFromDate === 6 || monthFromDate === 9 || monthFromDate === 11)) {
+                setInputValue(parser(`${"01"} ${monthFromDate} ${yearFromDate} ${hoursFromDate} ${minutesFromDate} ${secondsFromDate}`))
+                //------------------------------30 day months----------------------
+            }
+
+        }
+        validData(dateInThisMoment)
 
         // arrowValidator(dayFromDate, monthFromDate, yearFromDate, hourFromDate, minutesFromDate, secondsFromDate)
-        console.log("/////////////////////////////////////////////////////")
+        // arrowSecondsValidator(secondsFromDate)
+        // arrowMinutesValidator(secondsFromDate, minutesFromDate, hoursFromDate)
+        // arrowHoursValidator(minutesFromDate,hoursFromDate, dayFromDate)
+        // arrowDayValidator(hoursFromDate, dayFromDate, monthFromDate,)
+        // arrowMonthValidator(dayFromDate, monthFromDate, yearFromDate)
+        // arrowYearValidator(monthFromDate, yearFromDate)
+        /*console.log("/////////////////////////////////////////////////////")
         console.log(typeof dayFromDate, "---dayFromDate")
         console.log(typeof monthFromDate, "---monthFromDate")
         console.log(typeof yearFromDate, "---yearFromDate")
-        console.log(typeof hourFromDate, "---hourFromDate")
+        console.log(typeof hoursFromDate, "---hourFromDate")
         console.log(typeof minutesFromDate, "---minutesFromDate")
-        console.log(typeof secondsFromDate, "---secondsFromDate")
+        console.log(typeof secondsFromDate, "---secondsFromDate")*/
+        //console.log({dayFromDate, monthFromDate, yearFromDate, hoursFromDate, minutesFromDate, secondsFromDate})
+        //time = (`${yearFromDate}-${monthFromDate}-${dayFromDate}T${hoursFromDate}:${minutesFromDate}:${secondsFromDate}`)
 
-        console.log({dayFromDate, monthFromDate, yearFromDate, hourFromDate, minutesFromDate, secondsFromDate})
-        time = (`${yearFromDate}-${monthFromDate}-${dayFromDate}T${hourFromDate}:${minutesFromDate}:${secondsFromDate}`)
-        console.log("/////////////////////////////////////////////////////")
         return time
     }
+    const arrowUpCtrlKey = () => {
+
+
+    }
+    const arrowDownCtrlKey = () => {
+        /*let dayFromDate = new Date(inputValue).getDate()
+        let monthFromDate = new Date(inputValue).getMonth() + 1
+        let yearFromDate = new Date(inputValue).getFullYear()
+        let hoursFromDate = new Date(inputValue).getHours()
+        let minutesFromDate = new Date(inputValue).getMinutes()
+        let secondsFromDate = new Date(inputValue).getSeconds()
+        let dateInThisMoment = {
+            dayFromDate,
+            monthFromDate,
+            yearFromDate,
+            hoursFromDate,
+            minutesFromDate,
+            secondsFromDate
+        }
+        const validData = (dateInThisMoment: ArrowvalidationType) => {
+            if (monthFromDate === 2 && dayFromDate > 26) {//--------------------February-------------------
+                if (!((yearFromDate % 100 !== 0 && yearFromDate % 4 === 0) || (yearFromDate % 100 === 0 && yearFromDate % 400 === 0))) { ///- високосный год
+                    setInputValue(parser(`${"01"} ${monthFromDate} ${yearFromDate} ${hoursFromDate} ${minutesFromDate} ${secondsFromDate}`))
+                }
+                if (dayFromDate > 27) {
+                    setInputValue(parser(`${"01"} ${monthFromDate} ${yearFromDate} ${hoursFromDate} ${minutesFromDate} ${secondsFromDate}`))
+                }
+            }
+
+            if (dayFromDate > 29 && (monthFromDate === 4 || monthFromDate === 6 || monthFromDate === 9 || monthFromDate === 11)) {
+                setInputValue(parser(`${"01"} ${monthFromDate} ${yearFromDate} ${hoursFromDate} ${minutesFromDate} ${secondsFromDate}`))
+                //------------------------------30 day months----------------------
+            }
+        }
+
+
+        return time*/
+    }
+
+
     // ----------button helpers------
     const helper1 = () => {
         setInputValue('1 1 1 1 1 1')
@@ -145,6 +169,7 @@ export const Calendar = () => {
             placeholder={'hey'}
             value={inputValue.toString()}
             onKeyDown={e => handleKeyDown(e)}
+            // onKeyUp={e => handleKeyUp(e)}
             id={'calendar'}
             onChange={(e) => setInputValue(e.currentTarget.value)}
             // onChange={(e) => onInputValueChange(e.currentTarget.value)}
