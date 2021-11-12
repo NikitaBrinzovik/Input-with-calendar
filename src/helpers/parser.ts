@@ -1,4 +1,4 @@
-import {getMonthNumber, months, spliter, validationOfYear, validatorAllDate, validatorByLength} from "./helpers";
+import {getMonthNumber, months, spliter, validationOfYear, validatorAllDate, validatorByLength} from "./functions";
 
 
 export const parser = (str: string | Date): string | Date => {

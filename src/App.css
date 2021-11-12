@@ -5,16 +5,13 @@
   background-repeat: no-repeat;
   background-size: cover;
   position: absolute;
-
   top: 0;
   left: 0;
 }
-
 .container {
   width: 40vw;
   margin: 50px auto;
 }
-
 .calendar {
   width: 70%;
   padding: 10px;
@@ -24,11 +21,6 @@
   background-color: rgba(229, 229, 229, 1);
   text-align: center;
 }
-.calend {
-
-
-}
-
 /*::-webkit-datetime-edit-fields-wrapper { background: aliceblue; }
 ::-webkit-datetime-edit-text { color: red; padding: 0 0.3em; }
 ::-webkit-datetime-edit-month-field { color: blue;touch-action: pinch-zoom }
