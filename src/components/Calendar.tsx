@@ -206,30 +206,6 @@ export const Calendar = () => {
     }
 
 
-    //////////////// ----------button helpers------////////////////////
-    const helper1 = () => {
-        setInputValue('1 1 1 1 1 1')
-    }
-    const helper2 = () => {
-        setInputValue('1 2 3')
-    }
-    const helper3 = () => {
-        setInputValue('1 1')
-    }
-    const helper4 = () => {
-        setInputValue('11 11 1999 23 59 11')
-    }
-    const helper5 = () => {
-        setInputValue('11 feb 1111')
-    }
-    const helper6 = () => {
-        setInputValue('11 feb 1111 23 59 11')
-    }
-    ///////////////////////////////////////////////////////////
-    console.log('inputValue', inputValue)
-    //////////////////////////////////////////////////////////
-
-
     const onKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
         if (e.code === KeyboardKey.Enter) {
             handlePressEnter()
@@ -240,17 +216,15 @@ export const Calendar = () => {
 
         if (e.ctrlKey) {
             if (e.code === KeyboardKey.ArrowUp) {
-                console.log("g")
                 return handlePressArrowUpAndCtrl()
             }
             if (e.code === KeyboardKey.ArrowDown) {
                 return handlePressArrowDownCtrlKey()
             }
         }
-        console.log("ff")
+
         if (e.code === KeyboardKey.ArrowUp) {
             handlePressArrowUp()
-            console.log("f4444f")
         }
 
         if (e.code === KeyboardKey.ArrowDown) {
@@ -279,36 +253,6 @@ export const Calendar = () => {
                 id={'calendar'}
                 onChange={(e) => setInputValue(e.currentTarget.value)}
             />
-
-            {/*-------------Button - HELPERS--------------*/}
-            <button className="see-result button" onClick={handlePressEnter}>Exchange</button>
-            <button className="see-result button" onClick={handleResetInput}>reset</button>
-
-            {/*-------------setInput HELPERS--------------*/}
-            <div style={{"background": "rgba(54, 225, 112, 0.68)", "margin": "40px", "display": "flex"}}>
-                <button className="see-result button" onClick={helper1}>1 1 1 1 1 1</button>
-                <button className="see-result button" onClick={helper2}>1 2 3</button>
-                <button className="see-result button" onClick={helper3}>1 1</button>
-                <button className="see-result button" onClick={helper4}>11 11 1999 23 59 11</button>
-                <button className="see-result button" onClick={helper5}>11 feb 1111</button>
-                <button className="see-result button" onClick={helper6}>11 feb 1111 23 59 11</button>
-                <div style={{"background": "rgba(54, 225, 112, 0.68)", "padding": "20px"}}/>
-                {'"1991-02-03T22:01" -> 02/03/1991 10:01 PM или заканчивается на 22:01. ВТОРОЕ ЧИСЛО-ЭТО МЕСЯЦ '}
-            </div>
-            <div style={{"background": "rgba(54, 225, 112)", "margin": "40px", "width": "400px"}}>
-                1) По нажатию на клавиатуре стрелок вверх (↑) и вниз (↓) в зависимости от положения курсора
-                увеличивается
-                или уменьшается на 1 часть даты по циклу и выделяется изменяемая часть input-a. Если поставить курсор на
-                месяц и нажать вверх то дата переключится на следующий месяц, при увеличении декабря дата переключается
-                на
-                январь, год при этом не изменяется. <br/> <br/>
-                2) По нажатию на клавиатуре комбинаций ctrl + ↑ или ctrl + ↓ происходит то же самое, но не по циклу.
-                Например, при увеличении дня в декабре номер дня увеличивается по одному до 31 числа,
-                после чего 31/December/2021 12:13:00 + 1 день 01/January/2022 12:13:00. <br/> <br/>
-                3) В input можно вводить обычный текст. <br/> <br/>
-                4) Дата вводится посредством клавиатуры. День-месяц-год время, можно вводить не полностью <br/>
-
-            </div>
         </div>
     )
 }
