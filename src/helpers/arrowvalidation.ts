@@ -15,6 +15,12 @@ type ArrowDayValidatorType = {
     hoursFromDate: number
 }
 
+
+
+export const setTime = (d:number, m:number, y:number, h:number, min:number, s:number) =>{
+
+    return (parser(`${d} ${m} ${y} ${h} ${min} ${s}`))
+}
 export const arrowSecondsValidator = (minutesFromDate ?: number, secondsFromDate ?: number) => {
     /*if (secondsFromDate > 15) {
         parser(`${22} ${minutesFromDate}`)

@@ -1,6 +1,6 @@
 import {KeyboardEvent, useState} from "react";
 import {parser} from "../helpers/parser";
-import {ArrowvalidationType} from "../helpers/arrowvalidation";
+import {ArrowvalidationType, setTime} from "../helpers/arrowvalidation";
 
 let time: string
 
@@ -76,17 +76,32 @@ export const Calendar = () => {
         validData(dateInThisMoment)
         return time
     }
-
+    const getTime = () =>{
+        let dayFromDate = new Date(inputValue).getDate()
+        let monthFromDate = new Date(inputValue).getMonth() + 1
+        let yearFromDate = new Date(inputValue).getFullYear()
+        let hoursFromDate = new Date(inputValue).getHours()
+        let minutesFromDate = new Date(inputValue).getMinutes()
+        let secondsFromDate = new Date(inputValue).getSeconds()
+        let dateInThisMoment = {
+            dayFromDate,
+            monthFromDate,
+            yearFromDate,
+            hoursFromDate,
+            minutesFromDate,
+            secondsFromDate
+        }
+        setTime(dayFromDate ,monthFromDate, yearFromDate ,hoursFromDate ,minutesFromDate, secondsFromDate)
+    }
     const arrowUpCtrlKey = () => {
         const validData = (dateInThisMoment: ArrowvalidationType) => {
+            // alert('hey')
             let hoursHelper =  (+hoursFromDate + 1)
             let dayHelper =  (+dayFromDate + 1)
             let monthHelper = "0" + (+monthFromDate + 1)
             let yearHelper =  +yearFromDate + 1
             // if(monthHelper.length === 3) monthHelper.substr(-2,2)
-            if(monthFromDate === 11){
-                setInputValue(parser(`${dayFromDate} ${"01"} ${yearHelper} ${hoursFromDate} ${minutesFromDate} ${secondsFromDate}`))
-            }
+
             if (monthFromDate === 2 && dayFromDate > 26) {//--------------------February-------------------
                 if (!((yearFromDate % 100 !== 0 && yearFromDate % 4 === 0) || (yearFromDate % 100 === 0 && yearFromDate % 400 === 0))) { ///- високосный год
                     setInputValue(parser(`${"01"} ${"03"} ${yearFromDate} ${hoursFromDate} ${minutesFromDate} ${secondsFromDate}`))
@@ -96,27 +111,34 @@ export const Calendar = () => {
                 }
             }
             if (dayFromDate > 29 && (monthFromDate === 4 || monthFromDate === 6 || monthFromDate === 9 || monthFromDate === 11)) {
-                if(monthHelper === "010") monthHelper = "10"
-                if(monthHelper === "012") monthHelper = "12"
                 setInputValue(parser(`${"01"} ${monthHelper} ${yearFromDate} ${hoursFromDate} ${minutesFromDate} ${secondsFromDate}`))
+
+                if(monthHelper === "010"){setInputValue(parser(`${"01"} ${"10"} ${yearFromDate} ${hoursFromDate} ${minutesFromDate} ${secondsFromDate}`))}
+                if(monthHelper === "012") setInputValue(parser(`${"01"} ${"12"} ${yearFromDate} ${hoursFromDate} ${minutesFromDate} ${secondsFromDate}`))
+
+
                 //------------------------------30 day months----------------------
             }
             if (dayFromDate > 30) {
-                if(monthHelper === "010") monthHelper = "10"
-                if(monthHelper === "011") monthHelper = "11"
                 setInputValue(parser(`${"01"} ${monthHelper} ${yearFromDate} ${hoursFromDate} ${minutesFromDate} ${secondsFromDate}`))
+                if(monthHelper === "011") {
+
+
+                    setInputValue(parser(`${"01"} ${"11"} ${yearFromDate} ${hoursFromDate} ${minutesFromDate} ${secondsFromDate}`))
+                }
                 if(monthHelper === "013") {
                     let yearHelper =  +yearFromDate + 1
                     setInputValue(parser(`${"01"} ${"01"} ${yearHelper} ${hoursFromDate} ${minutesFromDate} ${secondsFromDate}`))
                 }
+
             }
-            if(hoursFromDate === 23){
+            if(hoursFromDate > 23){
                 setInputValue(parser(`${dayHelper} ${monthFromDate} ${yearFromDate} ${"00"} ${minutesFromDate} ${secondsFromDate}`))
             }
-            if(minutesFromDate === 59){
+            if(minutesFromDate > 59){
                 setInputValue(parser(`${dayFromDate} ${monthFromDate} ${yearFromDate} ${hoursHelper} ${"00"} ${secondsFromDate}`))
             }
-            if(secondsFromDate === 59){
+            if(secondsFromDate > 59){
                 setInputValue(parser(`${dayFromDate} ${monthFromDate} ${yearFromDate} ${hoursFromDate} ${minutesFromDate} ${"00"}`))
             }
         }
